@@ -64,7 +64,32 @@ void TestDestroy()
 	KThread* pthread = new KThread();
 	int nTestValue = 10086;
 
-	int errcode = pthread->Create(TestThread, &nTestValue);
+	int errcode = pthread->Destroy();
+	if (errcode != 2){
+		if (errcode == 1) {
+			K_ERROR_SYS("error code :%d", errcode)
+		} else {
+			K_ERROR_QUIT("error code :%d", errcode)
+		}
+	}
+
+	errcode = pthread->Create(TestThread, &nTestValue);
+	if (errcode != 0){
+		if (errcode == 1) {	// 和系统有关
+			K_ERROR_SYS("error code: %d", errcode)
+		} else {
+			K_ERROR_QUIT("error code: %d", errcode)
+		}
+	}
+
+	errcode = pthread->Destroy();
+	if (errcode != 0) {
+		if (errcode == 1) {
+			K_ERROR_SYS("error code :%d", errcode)
+		} else {
+			K_ERROR_QUIT("error code :%d", errcode)
+		}
+	}
 }
 
 // 成功：0
