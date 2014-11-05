@@ -13,6 +13,22 @@ typedef void KThreadFunction(void* pvArg);
 class KThread{
 	public:
 		int Create(KThreadFunction *pfnThread, void * pvArg);
+		int Destroy();
+
+		KThread();
+		~KThread();
+
+		void ThreadFunction();
+
+	private:
+		KThreadFunction *m_pfnThread;
+		void *m_pvThreadArg;
+
+#ifdef WIN32
+		HANDLE m_ThreadHandle;
+#else
+		pthread_t m_ThreadHandle;
+#endif
 };
 
 #endif

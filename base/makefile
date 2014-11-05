@@ -6,10 +6,10 @@ CFLAGS = -g
 all: base
 
 test: error.cpp error_test.cpp
-	cc $(CFLAGS) -o test.app error.cpp error_test.cpp
+	cc $(CFLAGS) -o test.app error.cpp error_test.cpp 
 
 base: error.cpp
-	cc $(CFLAGS) -c error.cpp
+	cc $(CFLAGS) -c error.cpp 
 
 .PHONY:clean
 clean:

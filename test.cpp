@@ -96,4 +96,5 @@ void TestDestroy()
 // 错误
 // 系统错误：1
 void TestTerminate()
-{}
+{
+}
