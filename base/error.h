@@ -4,7 +4,11 @@
 #include <iostream>
 #include <sys/types.h>
 #include <string.h>
+#ifdef WIN32
+#include "stdarg.h"
+#else
 #include <unistd.h>
+#endif
 
 void err_sys(const char *fmt, ...);
 void err_dump(const char* fmt, ...);

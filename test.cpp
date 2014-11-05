@@ -7,7 +7,7 @@ void TestDestroy();
 void TestTerminate();
 
 int main() {
-	std::cout << "hello, Test" << std::endl;	
+	std::cout << "hello, Test" << std::endl;
 
 	// Create
 	TestCreate();
@@ -18,7 +18,7 @@ int main() {
 	// Terminate
 	TestTerminate();
 
-	std::cout << "Test Success!" << std:endl;
+	std::cout << "Test Success!" << std::endl;
 }
 
 void TestThread(void* pVoid)

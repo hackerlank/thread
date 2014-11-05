@@ -5,6 +5,7 @@ typedef void KThreadFunction(void* pvArg);
 
 #ifdef WIN32
 #include "process.h"
+#include <windows.h>
 #else
 #include <unistd.h>
 #include <pthread.h>

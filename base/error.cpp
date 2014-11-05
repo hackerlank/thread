@@ -1,6 +1,10 @@
 #include "error.h"
 
+#ifdef WIN32
+#define LOG_ERR 0
+#else
 #include <syslog.h>
+#endif
 
 // 守护进程标记
 int daemon_proc;
@@ -87,12 +91,16 @@ static void err_doit(int errnoflag, int level, const char *fmt, va_list ap)
 	vsprintf(buf, fmt, ap);
 #endif
 	n = strlen(buf);
+#ifndef WIN32
 	if (errnoflag)
 		snprintf(buf+n, MAXLINE - n, ": %s", strerror(errno_save));
+#endif
 	strcat(buf, "\n");
 
 	if (daemon_proc) {
+#ifndef WIN32
 		syslog(level, buf);
+#endif
 	} else {
 		fflush(stdout);
 		fputs(buf, stderr);
