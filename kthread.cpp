@@ -97,10 +97,10 @@ int KThread::Destroy()
 	nRet = 1;
 #ifdef WIN32
 	KF_PROCESS_ERROR(m_ThreadHandle != NULL);
-	nSysCode = WaitForSingleObject(m_pfnThread, INFINITE);	// 一直等
+	nSysCode = WaitForSingleObject(m_ThreadHandle, INFINITE);	// 一直等
 	KF_PROCESS_ERROR(nSysCode != WAIT_FAILED);
 
-	nSysCode = CloseHandle(m_pfnThread);
+	nSysCode = CloseHandle(m_ThreadHandle);
 	KF_PROCESS_ERROR(nSysCode != 0);
 	m_pfnThread = NULL;
 #else

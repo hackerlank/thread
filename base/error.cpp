@@ -1,6 +1,8 @@
 #include "error.h"
 
 #ifdef WIN32
+#include <windows.h>
+#include <winbase.h>
 #define LOG_ERR 0
 #else
 #include <syslog.h>
@@ -91,9 +93,11 @@ static void err_doit(int errnoflag, int level, const char *fmt, va_list ap)
 	vsprintf(buf, fmt, ap);
 #endif
 	n = strlen(buf);
-#ifndef WIN32
+#ifdef WIN32
+	sprintf_s(buf + n, MAXLINE - n, ", [last err]: %d", GetLastError());
+#else
 	if (errnoflag)
-		snprintf(buf+n, MAXLINE - n, ": %s", strerror(errno_save));
+		snprintf(buf+n, MAXLINE - n, ", [err]: %s", strerror(errno_save));
 #endif
 	strcat(buf, "\n");
 
