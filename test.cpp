@@ -31,6 +31,7 @@ void TestThread(void* pVoid)
 // 错误
 // 系统错误：1
 // 参数错误：2 传入的函数指针为空
+// 已初始化过：3
 void TestCreate()
 {
 	KThread* pthread = new KThread();
@@ -48,6 +49,17 @@ void TestCreate()
 	errcode = pthread->Create(TestThread, &nTestValue);
 	if (errcode != 0){
 		if (errcode == 1) {	// 和系统有关
+			K_ERROR_SYS("error code: %d", errcode)
+		} else {
+			K_ERROR_QUIT("error code: %d", errcode)
+		}
+	}
+
+	errcode = pthread->Create(TestThread, &nTestValue);
+	if (errcode != 3)
+	{
+		if (errcode == 1)
+		{
 			K_ERROR_SYS("error code: %d", errcode)
 		} else {
 			K_ERROR_QUIT("error code: %d", errcode)
@@ -95,6 +107,36 @@ void TestDestroy()
 // 成功：0
 // 错误
 // 系统错误：1
+// 对象未初始化：2
 void TestTerminate()
 {
+	KThread* pthread = new KThread();
+	int nTestValue = 10010;
+
+	int errcode = pthread->Terminate();
+	if (errcode != 2){
+		if (errcode == 1) {
+			K_ERROR_SYS("error code :%d", errcode)
+		} else {
+			K_ERROR_QUIT("error code :%d", errcode)
+		}
+	}
+
+	errcode = pthread->Create(TestThread, &nTestValue);
+	if (errcode != 0){
+		if (errcode == 1) {	// 和系统有关
+			K_ERROR_SYS("error code: %d", errcode)
+		} else {
+			K_ERROR_QUIT("error code: %d", errcode)
+		}
+	}
+
+	errcode = pthread->Terminate();
+	if (errcode != 0) {
+		if (errcode == 1) {
+			K_ERROR_SYS("error code :%d", errcode)
+		} else {
+			K_ERROR_QUIT("error code :%d", errcode)
+		}
+	}
 }

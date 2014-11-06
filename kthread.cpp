@@ -15,6 +15,26 @@ static void *MyThreadProc(void *pvArg)
 
 KThread::KThread()
 {
+	_Clear();
+}
+
+KThread::~KThread()
+{
+	if (m_pfnThread) {
+		err_msg("Uninit KThread Object Before Destroy It");
+
+		Terminate();
+	}
+}
+
+// rework, need check m_pfnThread
+void KThread::ThreadFunction()
+{
+	m_pfnThread(m_pvThreadArg);
+}
+
+void KThread::_Clear()
+{
 #ifdef WIN32
 	m_ThreadHandle = NULL;
 #else
@@ -25,27 +45,20 @@ KThread::KThread()
 	m_pvThreadArg = NULL;
 }
 
-KThread::~KThread()
-{
-	Destroy();
-}
-
-// rework, need check m_pfnThread
-void KThread::ThreadFunction()
-{
-	m_pfnThread(m_pvThreadArg);
-}
-
 // 成功：0
 // 错误
 // 系统错误：1
 // 参数错误：2 传入的函数指针为空
+// 已初始化过：3
 int KThread::Create(KThreadFunction *pfnThread, void * pvArg)
 {
 	int nRet = 0;
 
 	nRet = 2;
 	KF_PROCESS_ERROR(pfnThread != NULL);
+
+	nRet = 3;
+	KF_PROCESS_ERROR(m_pfnThread == NULL && m_pvThreadArg == NULL);
 
 	m_pfnThread = pfnThread;
 	m_pvThreadArg = pvArg;
@@ -80,7 +93,7 @@ int KThread::Create(KThreadFunction *pfnThread, void * pvArg)
 #endif
 
 	nRet = 0;
-Exit0:
+ExitFailed:
 	return nRet;
 }
 
@@ -102,15 +115,46 @@ int KThread::Destroy()
 
 	nSysCode = CloseHandle(m_ThreadHandle);
 	KF_PROCESS_ERROR(nSysCode != 0);
-	m_pfnThread = NULL;
 #else
 	KF_PROCESS_ERROR(m_ThreadHandle != 0);
 	nSysCode = pthread_join(m_ThreadHandle);
 	KF_PROCESS_ERROR(nSysCode == 0);
-	m_ThreadHandle = 0;
 #endif
 
+	_Clear();
+
 	nRet = 0;
-Exit0:
+ExitFailed:
+	return nRet;
+}
+
+// 成功：0
+// 错误
+// 系统错误：1
+// 对象未初始化：2
+int KThread::Terminate(DWORD dwExitCode)
+{
+	int nRet = 2;
+	KF_PROCESS_ERROR(m_ThreadHandle);
+
+	nRet = 1;
+	int nSysCode = 0;
+#ifdef WIN32
+	if (m_ThreadHandle)
+	{
+		nSysCode = TerminateThread(m_ThreadHandle, dwExitCode);
+		KF_PROCESS_ERROR(nSysCode != 0);
+	}
+#else
+	if (m_ThreadHandle)
+	{
+		pthread_cancel(m_ThreadHandle);  //todo: android的ndk下暂时不支持该函数
+	}
+#endif
+
+	_Clear();
+
+	nRet = 0;
+ExitFailed:
 	return nRet;
 }

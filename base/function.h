@@ -9,14 +9,14 @@
 	do \
 	{ \
 		if (!(Condition)) \
-			goto Exit0;	\
+			goto ExitFailed;	\
 	} while (false)
 
 #define KF_PROCESS_SUCCESS(Condition) \
 	do \
 	{ \
 		if (Condition) \
-			goto Exit1;	\
+			goto ExitSucc;	\
 	} while (false)
 
 #endif

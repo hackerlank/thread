@@ -3,6 +3,8 @@
 
 typedef void KThreadFunction(void* pvArg);
 
+#include "base/error.h"
+
 #ifdef WIN32
 #include "process.h"
 #include <windows.h>
@@ -15,6 +17,7 @@ class KThread{
 	public:
 		int Create(KThreadFunction *pfnThread, void * pvArg);
 		int Destroy();
+		int Terminate(DWORD dwExitCode = 0);
 
 		KThread();
 		~KThread();
@@ -22,6 +25,7 @@ class KThread{
 		void ThreadFunction();
 
 	private:
+		void _Clear();
 		KThreadFunction *m_pfnThread;
 		void *m_pvThreadArg;
 
