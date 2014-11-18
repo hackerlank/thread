@@ -76,13 +76,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\base\error.cpp" />
+    <ClCompile Include="..\..\..\base\source\error.cpp" />
     <ClCompile Include="..\..\..\kthread.cpp" />
     <ClCompile Include="..\..\..\test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\base\error.h" />
-    <ClInclude Include="..\..\..\base\function.h" />
+    <ClInclude Include="..\..\..\base\include\error.h" />
+    <ClInclude Include="..\..\..\base\include\function.h" />
     <ClInclude Include="..\..\..\kthread.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

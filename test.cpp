@@ -1,6 +1,6 @@
 #include "kthread.h"
 #include <iostream>
-#include "base/error.h"
+#include "base/include/error.h"
 
 void TestCreate();
 void TestDestroy();

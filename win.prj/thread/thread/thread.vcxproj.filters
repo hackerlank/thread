@@ -18,10 +18,10 @@
     <ClInclude Include="..\..\..\kthread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\base\error.h">
+    <ClInclude Include="..\..\..\base\include\error.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\base\function.h">
+    <ClInclude Include="..\..\..\base\include\function.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -29,10 +29,10 @@
     <ClCompile Include="..\..\..\kthread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\base\error.cpp">
+    <ClCompile Include="..\..\..\test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\test.cpp">
+    <ClCompile Include="..\..\..\base\source\error.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

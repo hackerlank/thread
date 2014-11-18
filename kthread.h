@@ -3,7 +3,7 @@
 
 typedef void KThreadFunction(void* pvArg);
 
-#include "base/error.h"
+#include "base/include/error.h"
 
 #ifdef WIN32
 #include "process.h"
