@@ -4,6 +4,7 @@
 typedef void KThreadFunction(void* pvArg);
 
 #include "base/include/error.h"
+#include "base/include/commondefine.h"
 
 #ifdef WIN32
 #include "process.h"

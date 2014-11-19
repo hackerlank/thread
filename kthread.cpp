@@ -53,6 +53,8 @@ void KThread::_Clear()
 int KThread::Create(KThreadFunction *pfnThread, void * pvArg)
 {
 	int nRet = 0;
+	unsigned uThreadId = 0;
+	int nSysCode = -1;
 
 	nRet = 2;
 	KF_PROCESS_ERROR(pfnThread != NULL);
@@ -65,7 +67,6 @@ int KThread::Create(KThreadFunction *pfnThread, void * pvArg)
 
 	nRet = 1;
 #ifdef WIN32
-	unsigned uThreadId = 0;
 	m_ThreadHandle = (HANDLE)_beginthreadex(
 			NULL,			//SD
 			0,				// initial stack size
@@ -76,7 +77,6 @@ int KThread::Create(KThreadFunction *pfnThread, void * pvArg)
 			);
 	KF_PROCESS_ERROR(m_ThreadHandle != NULL);
 #else
-	int nSysCode = -1;
 	pthread_attr_t ThreadAttr;
 	nSysCode = pthread_attr_init(&ThreadAttr);
 	KF_PROCESS_ERROR(nSysCode == 0);
@@ -89,7 +89,7 @@ int KThread::Create(KThreadFunction *pfnThread, void * pvArg)
 	KF_PROCESS_ERROR(nSysCode == 0);
 
 	nSysCode = pthread_attr_destroy(&ThreadAttr);
-	KF_PROCESS_ERROR(nSysCode == 0)
+	KF_PROCESS_ERROR(nSysCode == 0);
 #endif
 
 	nRet = 0;
@@ -104,9 +104,11 @@ ExitFailed:
 int KThread::Destroy()
 {
 	int nRet = 2;
+	int nSysCode = 0;
+
+	// check self state
 	KF_PROCESS_ERROR(m_pfnThread != NULL);
 
-	int nSysCode = 0;
 	nRet = 1;
 #ifdef WIN32
 	KF_PROCESS_ERROR(m_ThreadHandle != NULL);
@@ -117,7 +119,7 @@ int KThread::Destroy()
 	KF_PROCESS_ERROR(nSysCode != 0);
 #else
 	KF_PROCESS_ERROR(m_ThreadHandle != 0);
-	nSysCode = pthread_join(m_ThreadHandle);
+	nSysCode = pthread_join(m_ThreadHandle, NULL);
 	KF_PROCESS_ERROR(nSysCode == 0);
 #endif
 
@@ -135,10 +137,10 @@ ExitFailed:
 int KThread::Terminate(DWORD dwExitCode)
 {
 	int nRet = 2;
+	int nSysCode = 0;
 	KF_PROCESS_ERROR(m_ThreadHandle);
 
 	nRet = 1;
-	int nSysCode = 0;
 #ifdef WIN32
 	if (m_ThreadHandle)
 	{
@@ -148,7 +150,7 @@ int KThread::Terminate(DWORD dwExitCode)
 #else
 	if (m_ThreadHandle)
 	{
-		pthread_cancel(m_ThreadHandle);  //android的ndk下不支持该函数
+		pthread_cancel(m_ThreadHandle);  //android的ndk下不支持该函数，可以考虑 thread 自己调用 pthread_exit
 	}
 #endif
 
