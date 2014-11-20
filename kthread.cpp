@@ -1,4 +1,5 @@
 #include "kthread.h"
+#include "base/include/commondefine.h"
 #include "base/include/function.h"
 
 #ifdef WIN32
