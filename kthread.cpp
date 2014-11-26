@@ -151,7 +151,7 @@ int KThread::Terminate(DWORD dwExitCode)
 #else
 	if (m_ThreadHandle)
 	{
-		pthread_cancel(m_ThreadHandle);  //android的ndk下不支持该函数，可以考虑 thread 自己调用 pthread_exit
+		pthread_cancel(m_ThreadHandle);  //据说 android的ndk下不支持该函数，可以考虑 thread 自己调用 pthread_exit
 	}
 #endif
 
