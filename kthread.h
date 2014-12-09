@@ -14,6 +14,8 @@ typedef void KThreadFunction(void* pvArg);
 #include <pthread.h>
 #endif
 
+int KThread_Sleep(unsigned uMilliseconds);
+
 class KThread{
 	public:
 		int Create(KThreadFunction *pfnThread, void * pvArg);

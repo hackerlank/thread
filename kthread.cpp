@@ -161,3 +161,15 @@ int KThread::Terminate(DWORD dwExitCode)
 ExitFailed:
 	return nRet;
 }
+
+int KThread_Sleep(unsigned uMilliseconds)
+{
+#ifdef WIN32
+	Sleep(uMilliseconds);
+	return true;
+#else
+	int nRetCode = false;
+	nRetCode = usleep(uMilliseconds * 1000);
+	return (nRetCode == 0)
+#endif
+}

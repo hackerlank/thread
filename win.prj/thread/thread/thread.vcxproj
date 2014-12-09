@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\base\include\error.h" />
     <ClInclude Include="..\..\..\base\include\function.h" />
+    <ClInclude Include="..\..\..\exclusive.h" />
     <ClInclude Include="..\..\..\kthread.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

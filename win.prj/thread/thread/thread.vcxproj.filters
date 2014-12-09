@@ -24,6 +24,9 @@
     <ClInclude Include="..\..\..\base\include\function.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\exclusive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\kthread.cpp">
