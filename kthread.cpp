@@ -170,6 +170,6 @@ int KThread_Sleep(unsigned uMilliseconds)
 #else
 	int nRetCode = false;
 	nRetCode = usleep(uMilliseconds * 1000);
-	return (nRetCode == 0)
+	return (nRetCode == 0);
 #endif
 }
